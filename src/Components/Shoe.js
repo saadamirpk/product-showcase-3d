@@ -1,19 +1,12 @@
 import { React, useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useSnapshot } from "valtio";
-import { useFrame } from "@react-three/fiber";
 
 export default function Shoe(props) {
   const shoeModel = useRef();
-  const { nodes, materials } = useGLTF("shoe.gltf");
+  const { nodes, materials } = useGLTF("/Shoe/shoe.gltf");
   const snap = useSnapshot(props.colors);
-  useFrame((state) => {
-    const t = state.clock.getElapsedTime();
-    shoeModel.current.rotation.z = -0.2 - (1 + Math.sin(t / 1.5)) / 20;
-    shoeModel.current.rotation.x = Math.cos(t / 4) / 8;
-    shoeModel.current.rotation.y = Math.sin(t / 4) / 8;
-    shoeModel.current.position.y = (1 + Math.sin(t / 1.5)) / 10;
-  });
+
   return (
     <group
       ref={shoeModel}
@@ -79,4 +72,4 @@ export default function Shoe(props) {
   );
 }
 
-useGLTF.preload("shoe.gltf");
+useGLTF.preload("/Shoe/shoe.gltf");

@@ -34,6 +34,13 @@ code {
   transition: opacity 0.3s;
 }
 
+.model-selector {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  z-index: 10;
+}
+
 .hidden {
   opacity: 0;
 }
