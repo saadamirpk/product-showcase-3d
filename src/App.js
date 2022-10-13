@@ -1,12 +1,16 @@
-import { React, Suspense, useState } from "react";
+import { React, Suspense, useState, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Float } from "@react-three/drei";
 import { proxy } from "valtio";
 import Shoe from "./Components/Shoe";
 import Rocket from "./Components/Rocket";
+import Axe from "./Components/Axe";
 import Loader from "./Components/Loader";
 import ModelPicker from "./Components/ModelPicker";
 import ColorPicker from "./Components/ColorPicker";
+import Insect from "./Components/Insect";
+import Teapot from "./Components/Teapot";
+import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 
 const RocketState = proxy({
   current: null,
@@ -14,26 +18,46 @@ const RocketState = proxy({
     hull: "#d3d3d3",
     base: "#d3d3d3",
     tip: "#d3d3d3",
-    wings: "#d3d3d3",
-    window: "#d3d3d3",
+    wings: "#a8a8a8",
+    window: "#a8a8a8",
+  },
+});
+const AxeState = proxy({
+  current: null,
+  colors: {
+    body: "#a8a8a8",
+    design: "#d3d3d3",
+    support: "#d3d3d3",
+    inner: "#d3d3d3",
   },
 });
 const ShoeState = proxy({
   current: null,
   colors: {
-    laces: "#fff",
-    mesh: "#fff",
-    caps: "#fff",
-    inner: "#fff",
-    sole: "#fff",
-    stripes: "#fff",
-    band: "#fff",
-    patch: "#fff",
+    laces: "#d3d3d3",
+    mesh: "#d3d3d3",
+    caps: "#d3d3d3",
+    inner: "#d3d3d3",
+    sole: "#d3d3d3",
+    stripes: "#d3d3d3",
+    band: "#d3d3d3",
+    patch: "#d3d3d3",
   },
+});
+const InsectState = proxy({
+  current: null,
+  colors: { body: "#d3d3d3", shell: "#a8a8a8" },
+});
+const TeapotState = proxy({
+  current: null,
+  colors: { lid: "#d3d3d3", base: "#a8a8a8" },
 });
 
 function App() {
   const [selectedModel, setSelectedModel] = useState("Shoe");
+  const [linkOpened, setLinkOpened] = useState(false);
+  const controls = useRef();
+
   const updateShoeCurrent = (value) => {
     ShoeState.current = value;
   };
@@ -41,11 +65,32 @@ function App() {
     ShoeState.colors[pro] = value;
   };
 
+  const updateAxeCurrent = (value) => {
+    AxeState.current = value;
+  };
+  const updateAxeColor = (pro, value) => {
+    AxeState.colors[pro] = value;
+  };
+
   const updateRocketCurrent = (value) => {
     RocketState.current = value;
   };
   const updateRocketColor = (pro, value) => {
     RocketState.colors[pro] = value;
+  };
+
+  const updateInsectCurrent = (value) => {
+    InsectState.current = value;
+  };
+  const updateInsectColor = (pro, value) => {
+    InsectState.colors[pro] = value;
+  };
+
+  const updateTeapotCurrent = (value) => {
+    TeapotState.current = value;
+  };
+  const updateTeapotColor = (pro, value) => {
+    TeapotState.colors[pro] = value;
   };
 
   const renderSelectedModel = () => {
@@ -66,6 +111,30 @@ function App() {
             updateCurrent={updateRocketCurrent}
           />
         );
+      case "Axe":
+        return (
+          <Axe
+            castShadow
+            colors={AxeState.colors}
+            updateCurrent={updateAxeCurrent}
+          />
+        );
+      case "Insect":
+        return (
+          <Insect
+            castShadow
+            colors={InsectState.colors}
+            updateCurrent={updateInsectCurrent}
+          />
+        );
+      case "Teapot":
+        return (
+          <Teapot
+            castShadow
+            colors={TeapotState.colors}
+            updateCurrent={updateTeapotCurrent}
+          />
+        );
       default:
         break;
     }
@@ -79,12 +148,23 @@ function App() {
         return (
           <ColorPicker state={RocketState} updateColor={updateRocketColor} />
         );
+      case "Axe":
+        return <ColorPicker state={AxeState} updateColor={updateAxeColor} />;
+      case "Insect":
+        return (
+          <ColorPicker state={InsectState} updateColor={updateInsectColor} />
+        );
+      case "Teapot":
+        return (
+          <ColorPicker state={TeapotState} updateColor={updateTeapotColor} />
+        );
       default:
         break;
     }
   };
 
   const updateSelectedModel = (selectedModel) => {
+    controls.current.reset();
     setSelectedModel(selectedModel);
   };
 
@@ -118,8 +198,24 @@ function App() {
             {renderSelectedModel()}
           </Float>
         </Suspense>
-        <OrbitControls maxDistance={5} minDistance={1.5} />
+        <OrbitControls ref={controls} maxDistance={5} minDistance={1.5} />
       </Canvas>
+      <div className="info-icon">
+        <div
+          className="holder"
+          onClick={() => {
+            setLinkOpened(true);
+            window.open("https://github.com/saadamirpk/product-showcase-3d");
+          }}
+        >
+          {linkOpened ? (
+            <AiFillStar color="#a8a8a8" size={24} />
+          ) : (
+            <AiOutlineStar color="#a8a8a8" size={24} />
+          )}
+          <span>saadamirpk/product-showcase-3d</span>
+        </div>
+      </div>
     </>
   );
 }

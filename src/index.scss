@@ -36,9 +36,51 @@ code {
 
 .model-selector {
   position: absolute;
-  top: 10%;
-  right: 10%;
+  top: 0;
+  right: 0;
   z-index: 10;
+  height: 90vh;
+  max-height: 90vh;
+  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  div {
+    h4 {
+      text-align: center;
+      margin: 0;
+    }
+    img {
+      max-width: 100px;
+      object-fit: contain;
+    }
+  }
+
+  div:hover {
+    cursor: pointer;
+  }
+}
+
+.info-icon {
+  position: absolute;
+  bottom: 5%;
+  left: 5%;
+
+  .holder {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #a8a8a8;
+
+    span {
+      margin-left: 4px;
+    }
+  }
+}
+
+.info-icon:hover {
+  cursor: pointer;
 }
 
 .hidden {
