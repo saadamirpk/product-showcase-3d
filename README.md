@@ -24,3 +24,4 @@ Overall, an interactive 3D product visualizer with color picker built with Three
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
